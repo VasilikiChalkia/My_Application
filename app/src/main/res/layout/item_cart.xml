@@ -1,43 +1,41 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/imageViewCartProduct"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="@string/product_image_desc" />
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/textViewProductName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:text="Product Name"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textViewCartProductName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textViewCartProductPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FF5722" />
-
-        <TextView
-            android:id="@+id/textViewCartProductQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/buttonRemoveFromCart"
+    <TextView
+        android:id="@+id/textViewProductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remove" />
+        android:text="$0.00"
+        android:textSize="14sp"
+        android:layout_marginEnd="8dp" />
+
+    <EditText
+        android:id="@+id/editTextQuantity"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:text="1" />
+
+    <Button
+        android:id="@+id/buttonRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Remove"
+        android:backgroundTint="@color/purple_200"
+        android:textColor="@android:color/white" />
 </LinearLayout>

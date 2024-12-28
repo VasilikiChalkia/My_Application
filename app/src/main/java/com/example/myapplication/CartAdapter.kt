@@ -1,47 +1,58 @@
 package com.example.myapplication
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide // Glide import for loading images
+import com.example.myapplication.databinding.ItemCartBinding
 
 class CartAdapter(
-    private val cartItems: List<CartItem>,
-    private val onRemoveClicked: (CartItem) -> Unit
-) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
-
-    class CartViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageViewCartProduct)
-        val textName: TextView = itemView.findViewById(R.id.textViewCartProductName)
-        val textPrice: TextView = itemView.findViewById(R.id.textViewCartProductPrice)
-        val textQuantity: TextView = itemView.findViewById(R.id.textViewCartProductQuantity)
-        val buttonRemove: Button = itemView.findViewById(R.id.buttonRemoveFromCart)
-    }
+    private val onQuantityChanged: (CartItem, Int) -> Unit,
+    private val onItemRemoved: (CartItem) -> Unit
+) : ListAdapter<CartItem, CartAdapter.CartViewHolder>(CartDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cart, parent, false)
-        return CartViewHolder(view)
+        val binding = ItemCartBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return CartViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        val cartItem = cartItems[position]
-        val imageUrl = cartItem.product.imageResId // Assuming this is a URL (String)
-
-        // Use Glide to load the image from the URL
-        Glide.with(holder.imageView.context)
-            .load(imageUrl) // The image URL from Firestore
-            .into(holder.imageView)
-
-        holder.textName.text = cartItem.product.name
-        holder.textPrice.text = "$${cartItem.product.price}"
-        holder.textQuantity.text = "Quantity: ${cartItem.quantity}"
-
-        holder.buttonRemove.setOnClickListener { onRemoveClicked(cartItem) }
+        val cartItem = getItem(position)
+        holder.bind(cartItem)
     }
 
-    override fun getItemCount() = cartItems.size
+    inner class CartViewHolder(private val binding: ItemCartBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(cartItem: CartItem) {
+            binding.textViewProductName.text = cartItem.product.name
+            binding.textViewProductPrice.text = "$${cartItem.product.price}"
+            binding.editTextQuantity.setText(cartItem.quantity.toString())
+
+            // Handle quantity changes
+            binding.editTextQuantity.setOnEditorActionListener { _, _, _ ->
+                val newQuantity = binding.editTextQuantity.text.toString().toIntOrNull()
+                if (newQuantity != null && newQuantity > 0) {
+                    onQuantityChanged(cartItem, newQuantity)
+                }
+                false
+            }
+
+            // Handle item removal
+            binding.buttonRemove.setOnClickListener {
+                onItemRemoved(cartItem)
+            }
+        }
+    }
+}
+
+class CartDiffCallback : DiffUtil.ItemCallback<CartItem>() {
+    override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+        return oldItem.product.id == newItem.product.id
+    }
+
+    override fun areContentsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
+        return oldItem == newItem
+    }
 }

@@ -38,6 +38,12 @@ android {
     buildFeatures {
         compose = true
     }
+    buildFeatures {
+        dataBinding = true
+    }
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -57,6 +63,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.firestore)
     implementation(libs.glide)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.support.annotations)
+    implementation(libs.androidx.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

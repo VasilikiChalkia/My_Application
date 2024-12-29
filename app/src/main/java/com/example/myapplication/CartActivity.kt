@@ -1,40 +1,57 @@
 package com.example.myapplication
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import android.widget.Button
 
 class CartActivity : AppCompatActivity() {
     private val cartViewModel: CartViewModel by viewModels()
+    private lateinit var cartAdapter: CartAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cart)
 
-        // Reference to the UI components
-        val layoutCartItems = findViewById<LinearLayout>(R.id.layoutCartItems) // LinearLayout to hold cart items
-        val textTotal = findViewById<TextView>(R.id.textViewTotalPrice)
+        val recyclerViewCart = findViewById<RecyclerView>(R.id.recyclerViewCart) // RecyclerView for cart items
+        val textTotalPrice = findViewById<TextView>(R.id.textViewTotalPrice) // TextView for total price
+        val buttonCheckout = findViewById<Button>(R.id.buttonCheckout) // Button for checkout
 
-        // Load cart data from Firestore when the activity is created
-        cartViewModel.loadCartFromFirestore()
-
-        // Observe cart items and update UI
-        cartViewModel.cartItems.observe(this) { cartItems ->
-            layoutCartItems.removeAllViews()  // Remove previous views
-
-            // Display each cart item
-            cartItems.forEach { cartItem ->
-                val textView = TextView(this)
-                textView.text = "${cartItem.product.name} - $${cartItem.product.price} x ${cartItem.quantity}"
-                layoutCartItems.addView(textView)
+        // Setup RecyclerView with CartAdapter
+        cartAdapter = CartAdapter(
+            onQuantityChanged = { cartItem, newQuantity ->
+                cartViewModel.updateItemQuantity(cartItem, newQuantity)
+            },
+            onItemRemoved = { cartItem ->
+                cartViewModel.removeFromCart(cartItem.product)
             }
+        )
+        recyclerViewCart.layoutManager = LinearLayoutManager(this)
+        recyclerViewCart.adapter = cartAdapter
 
-            // Display total price
+        // Observe cart items and update RecyclerView
+        cartViewModel.cartItems.observe(this) { cartItems ->
+            cartAdapter.submitList(cartItems)
+
             val totalPrice = cartViewModel.calculateTotal()
-            textTotal.text = "Total: $${totalPrice}"
+            textTotalPrice.text = if (cartItems.isEmpty()) {
+                "Your cart is empty."
+            } else {
+                "Total: $${String.format("%.2f", totalPrice)}"
+            }
         }
+
+        buttonCheckout.setOnClickListener {
+            // Handle checkout logic here
+            Toast.makeText(this, "Proceeding to checkout!", Toast.LENGTH_SHORT).show()
+        }
+
+        // Load cart data from Firestore
+        cartViewModel.loadCartFromFirestore()
     }
 }
+

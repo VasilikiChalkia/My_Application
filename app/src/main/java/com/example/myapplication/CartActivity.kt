@@ -54,4 +54,3 @@ class CartActivity : AppCompatActivity() {
         cartViewModel.loadCartFromFirestore()
     }
 }
-

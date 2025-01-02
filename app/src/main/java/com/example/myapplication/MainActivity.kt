@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                                 name = "New Product",
                                 description = "This is a new product",
                                 price = 29.99,
-                                rating = 4.5f,
+                                rating = 4.5,
                                 category = "Electronics",
                                 imageResId = "new_product_image"
                             )
@@ -60,7 +60,7 @@ fun DefaultPreview() {
                         name = "New Product",
                         description = "This is a new product",
                         price = 29.99,
-                        rating = 4.5f,
+                        rating = 4.5,
                         category = "Electronics",
                         imageResId = "new_product_image"
                     )

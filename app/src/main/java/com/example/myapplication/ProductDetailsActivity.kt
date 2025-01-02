@@ -2,7 +2,6 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -28,29 +27,32 @@ class ProductDetailsActivity : AppCompatActivity() {
             val textPrice = findViewById<TextView>(R.id.textViewProductPriceDetails)
             val buttonAddToCart = findViewById<Button>(R.id.buttonAddToCart)
 
-            // Load image using Glide (assuming imageResId is a URL)
+            // Load image using Glide
             Glide.with(this)
-                .load(product.imageResId)
+                .load(product.imageResId) // Ensure `imageUrl` is being passed correctly
                 .into(imageView)
 
-            // Set the product details on the UI
+            // Set product details
             textName.text = product.name
             textDescription.text = product.description
             textPrice.text = "$${product.price}"
 
-            // Set click listener for "Add to Cart" button
+            // Handle "Add to Cart" action
             buttonAddToCart.setOnClickListener {
                 // Add the product to the cart
                 cartViewModel.addToCart(product)
 
-                // Show a toast and log the action
+                // Show a toast message
                 Toast.makeText(this, "${product.name} added to cart", Toast.LENGTH_SHORT).show()
-                Log.d("ProductDetailsActivity", "Product added to cart: ${product.name}")
 
-                // Navigate to the Cart Activity
+                // Navigate to CartActivity
                 val intent = Intent(this, CartActivity::class.java)
                 startActivity(intent)
             }
+
+        } else {
+            Toast.makeText(this, "Product details not found", Toast.LENGTH_SHORT).show()
+            finish() // Close activity if no product details are provided
         }
     }
 }

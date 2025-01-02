@@ -95,7 +95,7 @@ class CartViewModel : ViewModel() {
                     name = name,
                     description = "Product Description",
                     price = price,
-                    rating = 0.0f,
+                    rating = 0.0,
                     category = "Category",
                     imageResId = "ImageResId"
                 )

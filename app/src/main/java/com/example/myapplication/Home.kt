@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
@@ -67,7 +69,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         // Apply price filter
-        findViewById<View>(R.id.buttonApplyPriceFilter).setOnClickListener {
+        findViewById<Button>(R.id.buttonApplyPriceFilter).setOnClickListener {
             val minPrice = editTextMinPrice.text.toString().toDoubleOrNull()
             val maxPrice = editTextMaxPrice.text.toString().toDoubleOrNull()
             filterProducts(null, null, minPrice, maxPrice)
@@ -92,17 +94,17 @@ class HomeActivity : AppCompatActivity() {
         firestore.collection("products")
             .get()
             .addOnSuccessListener { documents ->
+                allProducts.clear()
                 for (document in documents) {
                     val product = document.toObject(Product::class.java)
                     allProducts.add(product)
                 }
                 filteredProducts = allProducts.toMutableList() // Initially, show all products
-                groupAndDisplayProducts()  // Update UI with all products
+                groupAndDisplayProducts()  // Update UI with all products (no filtering)
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Error fetching products: ${e.message}", Toast.LENGTH_SHORT).show()
             }
-
     }
 
     private fun filterProducts(category: String?, minRating: Double?, minPrice: Double?, maxPrice: Double?) {
@@ -116,13 +118,17 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun groupAndDisplayProducts() {
-        val groupedProducts = filteredProducts.groupBy { it.category }
-        sectionedAdapter = SectionedProductAdapter(groupedProducts) { product ->
+        val sections = filteredProducts.groupBy { it.category }
+            .map { (category, products) -> Section(category, products) }
+
+        sectionedAdapter = SectionedProductAdapter(sections) { product ->
             val intent = Intent(this, ProductDetailsActivity::class.java)
-            intent.putExtra("product", product) // Pass the product to the details screen
+            intent.putExtra("product", product)
             startActivity(intent)
         }
         recyclerView.adapter = sectionedAdapter
     }
 
 }
+
+

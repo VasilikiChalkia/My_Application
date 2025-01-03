@@ -23,4 +23,9 @@ sealed class SectionItem {
     data class ProductItem(val product: Product) : SectionItem()
 }
 
+data class Section(
+    val category: String,
+    val products: List<Product>
+)
+
 

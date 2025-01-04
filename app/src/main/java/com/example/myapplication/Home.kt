@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 
+
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var sectionedAdapter: SectionedProductAdapter

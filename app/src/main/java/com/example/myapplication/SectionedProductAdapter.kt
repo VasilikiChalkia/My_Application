@@ -3,8 +3,10 @@ package com.example.myapplication
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 
 // Adapter for a RecyclerView that displays products grouped by category
 class SectionedProductAdapter(
@@ -39,11 +41,21 @@ class SectionedProductAdapter(
 
             if (currentPosition < section.products.size) {
                 val product = section.products[currentPosition]
-                (holder as ProductViewHolder).productName.text = product.name
-                holder.productPrice.text = "$${product.price}"
-                holder.itemView.setOnClickListener { onProductClick(product) }
+                val productHolder = holder as ProductViewHolder
+
+                productHolder.productName.text = product.name
+                productHolder.productPrice.text = "$${product.price}"
+                productHolder.productRating.text = "Rating: ${String.format("%.1f", product.rating)}"
+
+                // Load the image using Glide (or similar library)
+                Glide.with(productHolder.itemView.context)
+                    .load(product.imageResId) // Replace with the actual URL or resource ID
+                    .into(productHolder.productImage)
+
+                productHolder.itemView.setOnClickListener { onProductClick(product) }
                 return
             }
+
             currentPosition -= section.products.size
         }
     }
@@ -70,6 +82,8 @@ class SectionedProductAdapter(
     inner class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val productName: TextView = view.findViewById(R.id.textViewProductName)
         val productPrice: TextView = view.findViewById(R.id.textViewProductPrice)
+        val productRating: TextView = view.findViewById(R.id.textViewProductRating)
+        val productImage: ImageView = view.findViewById(R.id.imageViewProduct)
     }
 
     companion object {
@@ -77,6 +91,3 @@ class SectionedProductAdapter(
         const val PRODUCT_VIEW_TYPE = 1
     }
 }
-
-
-

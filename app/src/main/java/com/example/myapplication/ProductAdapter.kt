@@ -39,4 +39,3 @@ class ProductAdapter(
         val productRating: TextView = view.findViewById(R.id.textViewProductRating)
     }
 }
-

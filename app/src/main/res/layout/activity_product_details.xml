@@ -38,6 +38,14 @@
             android:textSize="18sp"
             android:layout_marginTop="8dp" />
 
+        <RatingBar
+            android:id="@+id/ratingBarProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:stepSize="0.5" />
+
         <Button
             android:id="@+id/buttonAddToCart"
             android:layout_width="match_parent"

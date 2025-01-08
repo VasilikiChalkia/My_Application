@@ -26,11 +26,19 @@ class Login : AppCompatActivity() {
     }
 
     private fun setupLogin() {
-        val email = "vasilikidelrey@gmail.com"  // Replace with user input or retrieve it from EditText
-        val password = "12345678"    // Replace with user input or retrieve it from EditText
+        val emailInput = findViewById<EditText>(R.id.etEmail)  // Replace with your EditText ID for email
+        val passwordInput = findViewById<EditText>(R.id.etPassword)  // Replace with your EditText ID for password
 
         findViewById<Button>(R.id.btnLogin).setOnClickListener {
-            loginUser(email, password)
+            val email = emailInput.text.toString().trim() // Retrieve user input
+            val password = passwordInput.text.toString().trim() // Retrieve user input
+
+            if (email.isEmpty() || password.isEmpty()) {
+                // Ensure neither field is empty
+                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
+            } else {
+                loginUser(email, password)
+            }
         }
     }
 

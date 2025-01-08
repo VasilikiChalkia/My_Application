@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 
 class MainActivity : ComponentActivity() {
     private val cartViewModel: CartViewModel by viewModels()
+    private val wishlistViewModel: WishlistViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 class ProductDetailsActivity : AppCompatActivity() {
 
     private val cartViewModel: CartViewModel by viewModels()
+    private val wishlistViewModel: WishlistViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +27,11 @@ class ProductDetailsActivity : AppCompatActivity() {
             val textDescription = findViewById<TextView>(R.id.textViewProductDescription)
             val textPrice = findViewById<TextView>(R.id.textViewProductPriceDetails)
             val buttonAddToCart = findViewById<Button>(R.id.buttonAddToCart)
+            val buttonAddToWishlist = findViewById<Button>(R.id.buttonAddToWishlist) // New Button
 
             // Load image using Glide
             Glide.with(this)
-                .load(product.imageResId) // Ensure `imageUrl` is being passed correctly
+                .load(product.imageResId) // Ensure `imageResId` is being passed correctly
                 .into(imageView)
 
             // Set product details
@@ -50,9 +52,20 @@ class ProductDetailsActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
-        } else {
-            Toast.makeText(this, "Product details not found", Toast.LENGTH_SHORT).show()
-            finish() // Close activity if no product details are provided
+            // Handle "Add to Wishlist" action
+            buttonAddToWishlist.setOnClickListener {
+                // Create a WishlistItem object
+                wishlistViewModel.addToWishlist(product)
+
+                Toast.makeText(this, "${product.name} added to wish list!", Toast.LENGTH_SHORT).show()
+
+                // Navigate to CartActivity
+                val intent = Intent(this, WishlistActivity::class.java)
+                startActivity(intent)
+            }
+
+
         }
     }
 }
+

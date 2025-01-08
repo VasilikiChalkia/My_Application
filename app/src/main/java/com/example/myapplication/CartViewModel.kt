@@ -16,7 +16,7 @@ class CartViewModel : ViewModel() {
 
     // Add a product to the cart
     fun addToCart(product: Product) {
-        val existingItem = _cartItems.value?.find { it.product.id == product.id }
+        val existingItem = _cartItems.value?.find { it.product.id == product?.id   }
         if (existingItem != null) {
             existingItem.quantity += 1
         } else {

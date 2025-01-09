@@ -97,7 +97,8 @@ class CartViewModel : ViewModel() {
                     price = price,
                     rating = 0.0,
                     category = "Category",
-                    imageResId = "ImageResId"
+                    imageResId = "ImageResId",
+                    totalReviews = 0
                 )
 
                 cartItems.add(CartItem(product, quantity))

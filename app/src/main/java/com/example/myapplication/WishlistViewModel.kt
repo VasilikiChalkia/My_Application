@@ -100,7 +100,8 @@ class WishlistViewModel : ViewModel() {
                     price = price,
                     rating = 0.0, // Assuming a default value, adjust as needed
                     category = "Category", // Assuming a default value, adjust as needed
-                    imageResId = "ImageResId" // Assuming a default value, adjust as needed
+                    imageResId = "ImageResId", // Assuming a default value, adjust as needed
+                    totalReviews = 0 // Assuming a default value, adjust as needed
                 )
 
                 wishlistItems.add(WishlistItem(product, quantity))
@@ -111,4 +112,3 @@ class WishlistViewModel : ViewModel() {
         }
     }
 }
-

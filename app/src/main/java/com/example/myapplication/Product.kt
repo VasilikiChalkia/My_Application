@@ -9,10 +9,11 @@ data class Product(
     val price: Double,
     val rating: Double,
     val category: String,
-    val imageResId: String // Assuming this is a URL (String)
+    val imageResId: String ,// Assuming this is a URL (String)
+    val totalReviews: Int
 ) : Serializable {
     // No-argument constructor for Firestore deserialization
-    constructor() : this(0, "", "", 0.0, 0.0, "", "")
+    constructor() : this(0, "", "", 0.0, 0.0, "", "", 0)
 }
 data class ProductSection(
     val category: String,
@@ -28,6 +29,10 @@ data class Section(
     val products: List<Product>
 )
 
-
-
-
+data class Review(
+    val userId: String,
+    val productId: Int,
+    val rating: Float,
+    val comment: String,
+    val timestamp: Long = System.currentTimeMillis()
+)

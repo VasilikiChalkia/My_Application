@@ -33,7 +33,8 @@ class MainActivity : ComponentActivity() {
                                 price = 29.99,
                                 rating = 4.5,
                                 category = "Electronics",
-                                imageResId = "new_product_image"
+                                imageResId = "new_product_image",
+                                totalReviews = 10
                             )
                             cartViewModel.addToCart(newProduct)
                         },
@@ -63,7 +64,8 @@ fun DefaultPreview() {
                         price = 29.99,
                         rating = 4.5,
                         category = "Electronics",
-                        imageResId = "new_product_image"
+                        imageResId = "new_product_image",
+                        totalReviews = 10
                     )
                     // Call ViewModel addToCart logic
                     CartViewModel().addToCart(newProduct)

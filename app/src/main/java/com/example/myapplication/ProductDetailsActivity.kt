@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -64,8 +65,23 @@ class ProductDetailsActivity : AppCompatActivity() {
                 startActivity(intent)
             }
 
+// In ProductDetailsActivity
+            val buttonAddReview = findViewById<Button>(R.id.buttonAddReview)
+            buttonAddReview.setOnClickListener {
+                // Ensure the product has a valid ID
+                val productId = product.id.toString()
+                Toast.makeText(this, "Product ID is $productId", Toast.LENGTH_SHORT).show()
+                if (productId != null) {
+                    val intent = Intent(this, AddReviewActivity::class.java)
+                    intent.putExtra("productId", productId) // Pass productId to AddReviewActivity
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Product ID is missing", Toast.LENGTH_SHORT).show()
+                }
+            }
 
         }
     }
-}
 
+
+}

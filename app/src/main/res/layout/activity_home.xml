@@ -2,43 +2,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FFDAB9"
     android:padding="16dp">
+
+    <!-- Top Bar with Buttons -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp">
+
+        <!-- Cart Button -->
+        <Button
+            android:id="@+id/buttonCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_button"
+            android:text="Cart"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:padding="8dp" />
+
+        <!-- Wishlist Button -->
+        <Button
+            android:id="@+id/buttonWishlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/buttonCart"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/rounded_button"
+            android:text="Wishlist"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:padding="8dp" />
+    </RelativeLayout>
 
     <!-- Spinner for Categories -->
     <Spinner
         android:id="@+id/spinnerCategories"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:layout_gravity="center"
+        android:textSize="45sp" />
 
     <!-- Spinner for Ratings -->
     <Spinner
         android:id="@+id/spinnerRatings"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_gravity="center"
         android:minHeight="48dp" />
 
     <!-- EditText for Minimum Price -->
     <EditText
         android:id="@+id/editTextMinPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="101dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_button"
+        android:gravity="center"
         android:hint="Min Price"
         android:inputType="numberDecimal"
-        android:minHeight="48dp" />
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="18sp" />
 
     <!-- EditText for Maximum Price -->
     <EditText
         android:id="@+id/editTextMaxPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="101dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_button"
+        android:gravity="center"
         android:hint="Max Price"
         android:inputType="numberDecimal"
-        android:minHeight="48dp" />
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textSize="18sp" />
 
     <!-- Button to Apply Price Filter -->
     <Button
@@ -46,7 +91,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Apply Price Filter"
-        android:layout_marginBottom="16dp" />
+        android:background="@drawable/rounded_button"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:elevation="2dp" />
 
     <!-- RecyclerView for Displaying Sectioned Products -->
     <androidx.recyclerview.widget.RecyclerView

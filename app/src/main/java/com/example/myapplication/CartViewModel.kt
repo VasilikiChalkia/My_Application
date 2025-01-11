@@ -67,10 +67,22 @@ class CartViewModel : ViewModel() {
 
     // Remove a product from the cart
     fun removeFromCart(product: Product) {
+        // Remove the item from local list
         _cartItems.value?.removeIf { it.product.id == product.id }
         _cartItems.value = _cartItems.value // Trigger LiveData update
-        saveCartToFirestore()
+
+        // Also delete the item from Firestore
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val productRef = db.collection("users").document(userId).collection("cart")
+            .document(product.id.toString())
+
+        productRef.delete().addOnSuccessListener {
+            Log.d("CartViewModel", "Cart item ${product.name} successfully removed from Firestore")
+        }.addOnFailureListener { e ->
+            Log.e("CartViewModel", "Error removing cart item ${product.name} from Firestore", e)
+        }
     }
+
 
     // Calculate total price
     fun calculateTotal(): Double {

@@ -6,6 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFDAB9"
     tools:context=".Register">
 
     <!-- First Name EditText -->
@@ -125,6 +126,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Register"
+        android:textColor="#F5FFFA"
+        android:background="#6A5ACD"
         app:layout_constraintTop_toBottomOf="@id/etCity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

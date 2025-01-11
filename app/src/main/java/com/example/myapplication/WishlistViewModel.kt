@@ -42,7 +42,7 @@ class WishlistViewModel : ViewModel() {
                 }
             }?.toMutableList()
         } else {
-            removeFromWishList(wishlistItem.product)
+            removeFromWishlist(wishlistItem.product)
         }
         saveWishlistToFirestore()
     }
@@ -74,10 +74,19 @@ class WishlistViewModel : ViewModel() {
     }
 
     // Remove a product from the wishlist
-    fun removeFromWishList(product: Product) {
+    fun removeFromWishlist(product: Product) {
         _wishlist.value?.removeIf { it.product.id == product.id }
         _wishlist.value = _wishlist.value // Trigger LiveData update
-        saveWishlistToFirestore()
+
+        val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val wishlistCollection = db.collection("users").document(userId).collection("wishlist")
+        wishlistCollection.document(product.id.toString()).delete()
+            .addOnSuccessListener {
+                Log.d("WishlistViewModel", "Product removed from Firestore successfully")
+            }
+            .addOnFailureListener { e ->
+                Log.e("WishlistViewModel", "Error removing product from Firestore", e)
+            }
     }
 
     // Load wishlist from Firestore

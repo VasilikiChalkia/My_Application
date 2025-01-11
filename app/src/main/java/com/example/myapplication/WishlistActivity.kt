@@ -34,7 +34,7 @@ class WishlistActivity : AppCompatActivity() {
             },
             onItemRemoved = { wishlistItem ->
                 Log.d("CartActivity", "Removing item ${wishlistItem.product.name} from cart")
-                wishlistViewModel.removeFromWishList(wishlistItem.product)
+                wishlistViewModel.removeFromWishlist(wishlistItem.product)
             }
         )
         recyclerViewWishlist.layoutManager = LinearLayoutManager(this)
@@ -49,7 +49,7 @@ class WishlistActivity : AppCompatActivity() {
             val totalPrice = wishlistViewModel.calculateTotal()
             textTotalPrice.text = if (wishlist.isEmpty()) {
                 Log.d("CartActivity", "Cart is empty")
-                "Your cart is empty."
+                "Your wish list is empty."
             } else {
                 Log.d("CartActivity", "Total price updated: $totalPrice")
                 "Total: $${String.format("%.2f", totalPrice)}"

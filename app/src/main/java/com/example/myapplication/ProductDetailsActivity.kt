@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -28,11 +29,11 @@ class ProductDetailsActivity : AppCompatActivity() {
             val textDescription = findViewById<TextView>(R.id.textViewProductDescription)
             val textPrice = findViewById<TextView>(R.id.textViewProductPriceDetails)
             val buttonAddToCart = findViewById<Button>(R.id.buttonAddToCart)
-            val buttonAddToWishlist = findViewById<Button>(R.id.buttonAddToWishlist) // New Button
+            val buttonAddToWishlist = findViewById<Button>(R.id.buttonAddToWishlist)
 
             // Load image using Glide
             Glide.with(this)
-                .load(product.imageResId) // Ensure `imageResId` is being passed correctly
+                .load(product.imageResId)
                 .into(imageView)
 
             // Set product details
@@ -40,48 +41,32 @@ class ProductDetailsActivity : AppCompatActivity() {
             textDescription.text = product.description
             textPrice.text = "$${product.price}"
 
+            // Set Rating
+            val ratingBar = findViewById<RatingBar>(R.id.ratingBarProduct)
+            ratingBar.rating = product.rating.toFloat() // Set the product rating
+
             // Handle "Add to Cart" action
             buttonAddToCart.setOnClickListener {
-                // Add the product to the cart
                 cartViewModel.addToCart(product)
-
-                // Show a toast message
                 Toast.makeText(this, "${product.name} added to cart", Toast.LENGTH_SHORT).show()
-
-                // Navigate to CartActivity
-                val intent = Intent(this, CartActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, CartActivity::class.java))
             }
 
             // Handle "Add to Wishlist" action
             buttonAddToWishlist.setOnClickListener {
-                // Create a WishlistItem object
                 wishlistViewModel.addToWishlist(product)
-
                 Toast.makeText(this, "${product.name} added to wish list!", Toast.LENGTH_SHORT).show()
-
-                // Navigate to CartActivity
-                val intent = Intent(this, WishlistActivity::class.java)
-                startActivity(intent)
+                startActivity(Intent(this, WishlistActivity::class.java))
             }
 
-// In ProductDetailsActivity
+            // Handle "Add Review" action
             val buttonAddReview = findViewById<Button>(R.id.buttonAddReview)
             buttonAddReview.setOnClickListener {
-                // Ensure the product has a valid ID
                 val productId = product.id.toString()
-                Toast.makeText(this, "Product ID is $productId", Toast.LENGTH_SHORT).show()
-                if (productId != null) {
-                    val intent = Intent(this, AddReviewActivity::class.java)
-                    intent.putExtra("productId", productId) // Pass productId to AddReviewActivity
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this, "Product ID is missing", Toast.LENGTH_SHORT).show()
-                }
+                val intent = Intent(this, AddReviewActivity::class.java)
+                intent.putExtra("productId", productId)
+                startActivity(intent)
             }
-
         }
     }
-
-
 }

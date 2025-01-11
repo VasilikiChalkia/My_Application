@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 
-
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var sectionedAdapter: SectionedProductAdapter
@@ -35,6 +34,9 @@ class HomeActivity : AppCompatActivity() {
         val spinnerRatings = findViewById<Spinner>(R.id.spinnerRatings)
         val editTextMinPrice = findViewById<EditText>(R.id.editTextMinPrice)
         val editTextMaxPrice = findViewById<EditText>(R.id.editTextMaxPrice)
+
+        val buttonCart = findViewById<Button>(R.id.buttonCart)
+        val buttonWishlist = findViewById<Button>(R.id.buttonWishlist)
 
         // Initialize filters
         setupCategoriesSpinner(spinnerCategories)
@@ -57,10 +59,10 @@ class HomeActivity : AppCompatActivity() {
         spinnerRatings.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val minRating = when (position) {
-                    1 -> 4.0
-                    2 -> 3.0
-                    3 -> 2.0
-                    4 -> 1.0
+                    1 -> 4.5
+                    2 -> 4.0
+                    3 -> 3.5
+                    4 -> 3.0
                     else -> null
                 }
                 filterProducts(null, minRating, null, null)
@@ -75,17 +77,29 @@ class HomeActivity : AppCompatActivity() {
             val maxPrice = editTextMaxPrice.text.toString().toDoubleOrNull()
             filterProducts(null, null, minPrice, maxPrice)
         }
+
+        // Handle Cart Button click
+        buttonCart.setOnClickListener {
+            val intent = Intent(this, CartActivity::class.java) // Replace with your Cart activity
+            startActivity(intent)
+        }
+
+        // Handle Wishlist Button click
+        buttonWishlist.setOnClickListener {
+            val intent = Intent(this, WishlistActivity::class.java) // Replace with your Wishlist activity
+            startActivity(intent)
+        }
     }
 
     private fun setupCategoriesSpinner(spinner: Spinner) {
-        val categories = listOf("All", "Electronics", "Clothing", "Books", "Accessories", "Shoes") // Example categories
+        val categories = listOf("All categories", "Fantasy", "Romance", "Mystery and Thriller", "Classics", "History") // Example categories
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
 
     private fun setupRatingsSpinner(spinner: Spinner) {
-        val ratings = listOf("All", "4+", "3+", "2+", "1+")
+        val ratings = listOf("All ratings", "4.5+", "4+", "3.5+", "3+")
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, ratings)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
@@ -110,7 +124,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun filterProducts(category: String?, minRating: Double?, minPrice: Double?, maxPrice: Double?) {
         filteredProducts = allProducts.filter {
-            (category == null || category == "All" || it.category == category) &&
+            (category == null || category == "All categories" || it.category == category) &&
                     (minRating == null || it.rating >= minRating) &&
                     (minPrice == null || it.price >= minPrice) &&
                     (maxPrice == null || it.price <= maxPrice)
@@ -129,7 +143,4 @@ class HomeActivity : AppCompatActivity() {
         }
         recyclerView.adapter = sectionedAdapter
     }
-
 }
-
-

@@ -2,12 +2,12 @@
     <string name="app_name">MyApplication</string>
     <string name="product_image_desc">Image of the product</string>
     <string-array name="categories">
-        <item>All</item>
-        <item>Electronics</item>
-        <item>Clothing</item>
-        <item>Home</item>
-        <item>Books</item>
-        <item>Sports</item>
+        <item>All categories</item>
+        <item>Fantasy</item>
+        <item>Romance</item>
+        <item>Mystery and Thriller</item>
+        <item>Classics</item>
+        <item>History</item>
     </string-array>
 
 </resources>

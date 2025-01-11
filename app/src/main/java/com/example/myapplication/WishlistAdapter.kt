@@ -54,13 +54,19 @@ class WishlistAdapter(
             buttonRemove.setOnClickListener {
                 val newQuantity = wishlistItem.quantity - 1
                 if (newQuantity > 0) {
-                    onQuantityChanged(wishlistItem, newQuantity)
+                    onQuantityChanged(wishlistItem, newQuantity) // Update quantity locally and in Firestore
                 } else {
-                    onItemRemoved(wishlistItem)
+                    onItemRemoved(wishlistItem) // Remove item from Firestore
                 }
             }
 
             buttonAdd.setOnClickListener {
+                val newQuantity = wishlistItem.quantity + 1
+                onQuantityChanged(wishlistItem, newQuantity)
+            }
+
+
+        buttonAdd.setOnClickListener {
                 val newQuantity = wishlistItem.quantity + 1
                 onQuantityChanged(wishlistItem, newQuantity)
             }
